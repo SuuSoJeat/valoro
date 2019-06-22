@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:valoro/record.dart';
+import 'package:provider/provider.dart';
+import 'package:valoro/core/models/record.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -14,31 +15,23 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         title: Text("Valoro"),
       ),
-      body: _buildBody(context),
+      body: _buildList(context),
     );
   }
 
-  _buildBody(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('babies').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return LinearProgressIndicator();
-          return _buildList(context, snapshot.data.documents);
-        });
-  }
-
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+  Widget _buildList(BuildContext context) {
+    final records = Provider.of<List<Record>>(context);
     return ListView(
       padding: EdgeInsets.only(top: 20.0),
       children: <Widget>[
-        ...snapshot.map((data) => _buildListItem(context, data)).toList()
+        ...records.map((data) => _buildListItem(context, data)).toList()
       ],
     );
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
-
+  Widget _buildListItem(BuildContext context, Record data) {
+//    final record = Record.fromSnapshot(data);
+    final record = data;
     return Padding(
       key: ValueKey(record.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
