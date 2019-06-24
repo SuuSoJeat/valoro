@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:valoro/core/constants/app_constants.dart';
+import 'package:valoro/ui/views/debt_view.dart';
 import 'package:valoro/ui/views/home_view.dart';
-import 'package:flare_splash_screen/flare_splash_screen.dart';
+import 'package:valoro/ui/views/login_view.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+
     switch (settings.name) {
       case RoutePaths.Home:
-        return MaterialPageRoute(builder: (_) {
-          return SplashScreen(
-            'assets/mangekyo-sharingan.flr',
-            HomeView(),
-            startAnimation: 'rotate',
-            backgroundColor: Colors.black,
-          );
-        });
-//      case RoutePaths.Login:
-//        return MaterialPageRoute(builder: (_) => LoginView());
+        return MaterialPageRoute(builder: (_) => HomeView());
+      case RoutePaths.Debt:
+        return MaterialPageRoute(builder: (_) => DebtView());
+      case RoutePaths.Login:
+        return MaterialPageRoute(builder: (_) => LoginView());
 //      case RoutePaths.Post:
 //        var post = settings.arguments as Post;
 //        return MaterialPageRoute(builder: (_) => PostView(post: post));

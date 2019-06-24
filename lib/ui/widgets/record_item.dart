@@ -18,10 +18,16 @@ class RecordItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                record.name,
+                record.category,
                 style: Theme.of(context).textTheme.title,
               ),
-              Text(record.votes.toString(), style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),)
+              Text(
+                record.amount.toString(),
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
             ],
           ),
         ),
