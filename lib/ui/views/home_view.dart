@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:valoro/core/constants/app_constants.dart';
 import 'package:valoro/ui/widgets/data_info_card.dart';
 
@@ -33,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
                       padding: const EdgeInsets.only(
                           left: 16.0, top: 24.0, bottom: 16.0),
                       child: Text(
-                        "Hello there!",
+                        "Hello ${Provider.of<FirebaseUser>(context).displayName}!",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

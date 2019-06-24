@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:valoro/core/constants/app_constants.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -41,7 +42,10 @@ class _LoginViewState extends State<LoginView> {
               Buttons.Google,
               onPressed: () {
                 _handleSignIn()
-                    .then((firebaseUser) => {print(firebaseUser)})
+                    .then((firebaseUser) => {
+                          print(firebaseUser),
+                          Navigator.of(context).pushNamed(RoutePaths.Home)
+                        })
                     .catchError((error) => {print(error)});
               },
             ),
