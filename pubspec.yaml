@@ -12,7 +12,7 @@ dependencies:
   cloud_firestore: ^0.12.5+2
   firebase_auth: ^0.11.1+7
   google_sign_in: ^4.0.2
-  flutter_signin_button: ^0.2.8
+  firebase_core: ^0.4.0
   provider: ^3.0.0
   flare_splash_screen: ^2.0.1+2
   font_awesome_flutter: ^8.4.0

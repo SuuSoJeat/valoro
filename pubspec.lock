@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "0.11.1+7"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -70,26 +70,19 @@ packages:
       name: flare_loading
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0+5"
+    version: "2.0.0"
   flare_splash_screen:
     dependency: "direct main"
     description:
       name: flare_splash_screen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1+2"
+    version: "2.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_signin_button:
-    dependency: "direct main"
-    description:
-      name: flutter_signin_button
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.8"
   flutter_test:
     dependency: "direct dev"
     description: flutter

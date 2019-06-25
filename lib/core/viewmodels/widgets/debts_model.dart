@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 import 'package:valoro/core/models/debt.dart';
 import 'package:valoro/core/services/firestore_service.dart';
@@ -10,11 +11,13 @@ class DebtsModel extends BaseModel {
     @required FirestoreService firestoreService,
   }) : _firestoreService = firestoreService;
 
-  List<Debt> debts;
+  List<Debt> _debts = [];
 
-  Future getDebts() async {
+  UnmodifiableListView<Debt> get debts => UnmodifiableListView(_debts);
+
+  Future getDebts(String uid) async {
     setBusy(true);
-    debts = await _firestoreService.getDebts();
+    _debts = await _firestoreService.getDebts(uid);
     setBusy(false);
   }
 }

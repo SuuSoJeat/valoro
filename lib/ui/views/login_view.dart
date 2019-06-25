@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:valoro/core/constants/app_constants.dart';
+import 'package:valoro/core/services/auth_service.dart';
+import 'package:valoro/core/viewmodels/views/login_view_model.dart';
+import 'package:valoro/ui/views/base_widget.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -10,48 +12,56 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future<FirebaseUser> _handleSignIn() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      idToken: googleAuth.idToken,
-      accessToken: googleAuth.accessToken,
-    );
-
-    FirebaseUser user = await _auth.signInWithCredential(credential);
-    return user;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text(
-              "Valoro",
-              style: Theme.of(context).textTheme.title,
-            ),
-            SignInButton(
-              Buttons.Google,
-              onPressed: () {
-                _handleSignIn()
-                    .then((firebaseUser) => {
-                          print(firebaseUser),
-                          Navigator.of(context).pushNamed(RoutePaths.Home)
-                        })
-                    .catchError((error) => {print(error)});
-              },
-            ),
-          ],
-        ),
+    return BaseWidget<LoginViewModel>(
+      model: LoginViewModel(authService: Provider.of<AuthService>(context)),
+      child: Text(
+        "VALORO",
+        style: Theme
+            .of(context)
+            .textTheme
+            .title,
       ),
+      builder: (context, model, child) =>
+          Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  child,
+                  model.busy
+                      ? CircularProgressIndicator()
+                      : MaterialButton(
+                    color: Colors.white,
+                    onPressed: () {
+                      model
+                          .handleSignIn()
+                          .then((firebaseUser) =>
+                      {
+                        print(firebaseUser),
+                        Navigator.of(context)
+                            .pushNamed(RoutePaths.Home)
+                      })
+                          .catchError((error) => {print(error)});
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.google),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text("Sign In With Google."),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
     );
   }
 }

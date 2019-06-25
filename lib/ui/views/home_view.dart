@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:valoro/core/constants/app_constants.dart';
+import 'package:valoro/core/services/auth_service.dart';
 import 'package:valoro/ui/widgets/data_info_card.dart';
 
 class HomeView extends StatefulWidget {
@@ -171,7 +172,32 @@ class _HomeViewState extends State<HomeView> {
                 FontAwesomeIcons.userCircle,
                 color: Theme.of(context).primaryColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) =>
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              FlatButton(
+                                  onPressed: () {
+                                    Provider.of<AuthService>(context)
+                                        .handleSignOut()
+                                        .whenComplete(() {
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                          RoutePaths.Login,
+                                              (route) =>
+                                          route.settings.name ==
+                                              RoutePaths.Login);
+                                    });
+                                  },
+                                  child: Text("Sign Out"))
+                            ],
+                          ),
+                        ));
+              },
               tooltip: "Account",
             ),
             IconButton(
