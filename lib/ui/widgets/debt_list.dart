@@ -24,10 +24,11 @@ class DebtList extends StatelessWidget {
       )
           : ListView.builder(
         itemCount: model.debts.length,
-        itemBuilder: (context, index) => DebtItem(
-          debt: model.debts[index],
-          onTap: () {},
-        ),
+        itemBuilder: (context, index) =>
+            DebtItem(
+              debt: model.debts[index],
+              onTap: () {},
+            ),
       ),
     );
   }

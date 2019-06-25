@@ -38,11 +38,23 @@ class DebtView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.filter_list),
+              icon: Icon(Icons.sort),
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
-                  builder: (context) => Container(),
+                  builder: (context) =>
+                      ListView(
+                        children: <Widget>[
+                          ListTile(title: Text("Filtering", style: Theme
+                              .of(context)
+                              .textTheme
+                              .title,), enabled: false,),
+                          ListTile(
+                            leading: Icon(Icons.sort_by_alpha),
+                            title: Text("Sort by name"),
+                          )
+                        ],
+                      ),
                 );
               },
             )
