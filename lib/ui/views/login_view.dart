@@ -41,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
                       {
                         print(firebaseUser),
                         Navigator.of(context)
-                            .pushNamed(RoutePaths.Home)
+                            .pushReplacementNamed(RoutePaths.Home)
                       })
                           .catchError((error) => {print(error)});
                     },
