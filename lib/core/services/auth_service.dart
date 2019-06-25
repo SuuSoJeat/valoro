@@ -20,6 +20,7 @@ class AuthService {
   }
 
   Future handleSignOut() {
+    _googleSignIn.signOut();
     return _auth.signOut();
   }
 
