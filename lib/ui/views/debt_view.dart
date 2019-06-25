@@ -42,13 +42,15 @@ class DebtView extends StatelessWidget {
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
-                  builder: (context) =>
-                      ListView(
+                  builder: (context) => ListView(
                         children: <Widget>[
-                          ListTile(title: Text("Filtering", style: Theme
-                              .of(context)
-                              .textTheme
-                              .title,), enabled: false,),
+                          ListTile(
+                            title: Text(
+                              "Filtering",
+                              style: Theme.of(context).textTheme.title,
+                            ),
+                            enabled: false,
+                          ),
                           ListTile(
                             leading: Icon(Icons.sort_by_alpha),
                             title: Text("Sort by name"),

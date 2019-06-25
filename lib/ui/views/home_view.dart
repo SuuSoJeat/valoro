@@ -175,8 +175,7 @@ class _HomeViewState extends State<HomeView> {
               onPressed: () {
                 showModalBottomSheet(
                     context: context,
-                    builder: (context) =>
-                        Container(
+                    builder: (context) => Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -187,10 +186,10 @@ class _HomeViewState extends State<HomeView> {
                                         .whenComplete(() {
                                       Navigator.of(context)
                                           .pushNamedAndRemoveUntil(
-                                          RoutePaths.Login,
+                                              RoutePaths.Login,
                                               (route) =>
-                                          route.settings.name ==
-                                              RoutePaths.Login);
+                                                  route.settings.name ==
+                                                  RoutePaths.Login);
                                     });
                                   },
                                   child: Text("Sign Out"))

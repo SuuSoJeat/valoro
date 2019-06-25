@@ -18,13 +18,9 @@ class _LoginViewState extends State<LoginView> {
       model: LoginViewModel(authService: Provider.of<AuthService>(context)),
       child: Text(
         "VALORO",
-        style: Theme
-            .of(context)
-            .textTheme
-            .title,
+        style: Theme.of(context).textTheme.title,
       ),
-      builder: (context, model, child) =>
-          Scaffold(
+      builder: (context, model, child) => Scaffold(
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -33,31 +29,30 @@ class _LoginViewState extends State<LoginView> {
                   model.busy
                       ? CircularProgressIndicator()
                       : MaterialButton(
-                    color: Colors.white,
-                    onPressed: () {
-                      model
-                          .handleSignIn()
-                          .then((firebaseUser) =>
-                      {
-                        print(firebaseUser),
-                        Navigator.of(context)
-                            .pushReplacementNamed(RoutePaths.Home)
-                      })
-                          .catchError((error) => {print(error)});
-                    },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Icon(FontAwesomeIcons.google),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Text("Sign In With Google."),
-                        )
-                      ],
-                    ),
-                  ),
+                          color: Colors.white,
+                          onPressed: () {
+                            model
+                                .handleSignIn()
+                                .then((firebaseUser) => {
+                                      print(firebaseUser),
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(RoutePaths.Home)
+                                    })
+                                .catchError((error) => {print(error)});
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Icon(FontAwesomeIcons.google),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                child: Text("Sign In With Google."),
+                              )
+                            ],
+                          ),
+                        ),
                 ],
               ),
             ),

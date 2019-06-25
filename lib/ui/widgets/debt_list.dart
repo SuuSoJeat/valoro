@@ -11,25 +11,22 @@ class DebtList extends StatelessWidget {
     return BaseWidget<DebtsModel>(
       model: DebtsModel(firestoreService: Provider.of(context)),
       onModelReady: (model) =>
-          model.getDebts(Provider
-              .of<FirebaseUser>(context)
-              .uid),
+          model.getDebts(Provider.of<FirebaseUser>(context).uid),
       builder: (context, model, child) => model.busy
           ? Center(
-        child: CircularProgressIndicator(),
-      )
+              child: CircularProgressIndicator(),
+            )
           : model.debts.isEmpty
-          ? Center(
-        child: Text("No Item"),
-      )
-          : ListView.builder(
-        itemCount: model.debts.length,
-        itemBuilder: (context, index) =>
-            DebtItem(
-              debt: model.debts[index],
-              onTap: () {},
-            ),
-      ),
+              ? Center(
+                  child: Text("No Item"),
+                )
+              : ListView.builder(
+                  itemCount: model.debts.length,
+                  itemBuilder: (context, index) => DebtItem(
+                        debt: model.debts[index],
+                        onTap: () {},
+                      ),
+                ),
     );
   }
 }
