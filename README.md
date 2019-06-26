@@ -25,4 +25,4 @@ samples, guidance on mobile development, and a full API reference.
 - [ ] Filtering and sorting
 - [ ] Logging out and account view
 - [ ] Change font
-- [ ] Go to home directly for logged in user
+- [x] Go to home directly for logged in user
