@@ -15,6 +15,13 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Setup
+
+- Create a Firebase App
+- Add SHA-1 and SHA-256
+- Enable Google Sign In method
+- Copy the serviceAccountKey.json to ./android/app
+
 ## TODO
 - [ ] Add debt
 - [ ] Add record
