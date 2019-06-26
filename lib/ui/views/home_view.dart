@@ -168,10 +168,16 @@ class _HomeViewState extends State<HomeView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-              icon: Icon(
-                FontAwesomeIcons.userCircle,
-                color: Theme.of(context).primaryColor,
-              ),
+              icon: Provider.of<FirebaseUser>(context).photoUrl.isNotEmpty
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        Provider.of<FirebaseUser>(context).photoUrl,
+                      ),
+                    )
+                  : Icon(
+                      FontAwesomeIcons.userCircle,
+                      color: Theme.of(context).primaryColor,
+                    ),
               onPressed: () {
                 showModalBottomSheet(
                     context: context,
