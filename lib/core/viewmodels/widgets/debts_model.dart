@@ -12,6 +12,13 @@ class DebtsModel extends BaseModel {
   }) : _firestoreService = firestoreService;
 
   List<Debt> _debts = [];
+  final Map<String, dynamic> newDebt = {
+    "name": "",
+    "currency": "KHR",
+    "amount": 0,
+    "date": DateTime.now().toIso8601String(),
+    "description": ""
+  };
 
   UnmodifiableListView<Debt> get debts => UnmodifiableListView(_debts);
 
@@ -19,5 +26,16 @@ class DebtsModel extends BaseModel {
     setBusy(true);
     _debts = await _firestoreService.getDebts(uid);
     setBusy(false);
+  }
+
+  Future saveNewDebt(String uid) async {
+    try {
+      setBusy(true);
+      return Future.value(await _firestoreService.saveNewDebt(uid, newDebt));
+    } catch (error) {
+      return Future.error(error);
+    } finally {
+      setBusy(false);
+    }
   }
 }

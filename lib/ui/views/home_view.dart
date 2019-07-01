@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:valoro/core/constants/app_constants.dart';
 import 'package:valoro/ui/views/account_view.dart';
+import 'package:valoro/ui/views/debt_entry_dialog.dart';
 import 'package:valoro/ui/widgets/data_info_card.dart';
 
 class HomeView extends StatefulWidget {
@@ -11,7 +12,8 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends State<HomeView>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -200,9 +202,23 @@ class _HomeViewState extends State<HomeView> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+//          _scaffoldKey.currentState.showBottomSheet((context) => AddDebtView());
+//          showModalBottomSheet(
+//            context: context,
+//            builder: (context) => AddDebtView(),
+//          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DebtEntryDialog(),
+              fullscreenDialog: true,
+            ),
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: true,
     );
   }
 }

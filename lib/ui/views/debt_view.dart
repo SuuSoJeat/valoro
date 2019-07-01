@@ -43,6 +43,7 @@ class DebtView extends StatelessWidget {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) => ListView(
+                        shrinkWrap: true,
                         children: <Widget>[
                           ListTile(
                             title: Text(

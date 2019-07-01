@@ -21,4 +21,17 @@ class FirestoreService {
         .map((snapshot) => Debt.fromSnapshot(snapshot))
         .toList();
   }
+
+  Future saveNewDebt(String uid, Map<String, dynamic> newDebt) async {
+    try {
+      final documentReference = await _firestore
+          .collection('users')
+          .document(uid)
+          .collection('debts')
+          .add(newDebt);
+      return Future.value(documentReference);
+    } catch (error) {
+      return Future.error(error);
+    }
+  }
 }
