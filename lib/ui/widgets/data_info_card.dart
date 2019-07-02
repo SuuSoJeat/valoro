@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class DataInfoCard extends StatelessWidget {
@@ -29,13 +30,13 @@ class DataInfoCard extends StatelessWidget {
                 left: 8.0,
                 right: 8.0,
               ),
-              child: Text(
+              child: AutoSizeText(
                 value,
-                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
                 style: Theme.of(context).textTheme.headline.copyWith(
-                      color: valueColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: valueColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             )
           ],

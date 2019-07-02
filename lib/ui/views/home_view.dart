@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:valoro/core/constants/app_constants.dart';
 import 'package:valoro/ui/views/account_view.dart';
 import 'package:valoro/ui/views/debt_entry_dialog.dart';
-import 'package:valoro/ui/widgets/data_info_card.dart';
+import 'package:valoro/ui/widgets/dashboard_balances.dart';
 import 'package:valoro/ui/widgets/recent_record_list.dart';
 
 class HomeView extends StatefulWidget {
@@ -47,28 +47,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          DataInfoCard(
-                            title: "Total",
-                            value: "\$300",
-                          ),
-                          DataInfoCard(
-                            title: "Lent",
-                            value: "\$200",
-                            valueColor: Colors.red,
-                          ),
-                          DataInfoCard(
-                            title: "Borrowed",
-                            value: "\$100",
-                          ),
-                        ],
-                      ),
-                    )
+                    DashboardBalances()
                   ],
                 ),
               ),

@@ -1,13 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:valoro/core/models/balances.dart';
 import 'package:valoro/core/models/debt.dart';
-import 'package:valoro/core/models/record.dart';
 
 class FirestoreService {
   final Firestore _firestore = Firestore.instance;
 
-  Stream<List<Record>> streamRecord() {
-    return Firestore.instance.collection('babies').snapshots().map((snapshot) =>
-        snapshot.documents.map((doc) => Record.fromSnapshot(doc)).toList());
+  Stream<Balances> dashboardBalances(FirebaseUser user) {
+    return _firestore
+        .collection('users')
+        .document(user.uid)
+        .collection('dashboards')
+        .document('balances')
+        .snapshots()
+        .map((snapshot) => Balances.fromSnapshot(snapshot));
   }
 
   Stream<List<Debt>> getRecentDebts(String uid) {
