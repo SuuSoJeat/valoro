@@ -14,7 +14,7 @@ class _DebtEntryDialogState extends State<DebtEntryDialog> {
     "date": DateFormat("E: MMMM d, y").format(DateTime.now()),
     "description": ""
   };
-  String _date = DateFormat("E: MMMM d, y").format(DateTime.now());
+
   TimeOfDay _time = TimeOfDay.now();
 
   FocusNode _amountNode = FocusNode();

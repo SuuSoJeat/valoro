@@ -23,7 +23,7 @@ samples, guidance on mobile development, and a full API reference.
 - Copy the serviceAccountKey.json to ./android/app
 
 ## TODO
-- [ ] Add debt
+- [x] Add debt
 - [ ] Add record
 - [ ] Calculate real data into home page
 - [ ] Access user's contacts
