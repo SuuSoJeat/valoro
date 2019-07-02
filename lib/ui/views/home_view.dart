@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,8 +13,7 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView>
-    with SingleTickerProviderStateMixin {
+class _HomeViewState extends State<HomeView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -202,19 +202,38 @@ class _HomeViewState extends State<HomeView>
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
+        onPressed: () async {
 //          _scaffoldKey.currentState.showBottomSheet((context) => AddDebtView());
 //          showModalBottomSheet(
 //            context: context,
 //            builder: (context) => AddDebtView(),
 //          );
-          Navigator.push(
+          final newDebt = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => DebtEntryDialog(),
               fullscreenDialog: true,
             ),
           );
+
+          if (newDebt != null) {
+            Firestore.instance
+                .collection('users')
+                .document(Provider.of<FirebaseUser>(context).uid)
+                .collection('debts')
+                .add(newDebt)
+                .then((value) {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      title: Text("Succeed"),
+                      content: Text("A new debt has been added."),
+                    ),
+              );
+            }).catchError((error) {
+              print(error.toString());
+            });
+          }
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
