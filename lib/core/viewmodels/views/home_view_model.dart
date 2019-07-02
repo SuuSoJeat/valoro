@@ -6,6 +6,4 @@ class HomeViewModel extends BaseModel {
 
   HomeViewModel({FirestoreService firestoreService})
       : _firestoreService = firestoreService;
-
-
 }

@@ -10,6 +10,20 @@ class FirestoreService {
         snapshot.documents.map((doc) => Record.fromSnapshot(doc)).toList());
   }
 
+  Stream<List<Debt>> getRecentDebts(String uid) {
+    return _firestore
+        .collection('users')
+        .document(uid)
+        .collection('debts')
+        .orderBy('name', descending: true)
+        .limit(2)
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.documents.map((doc) => Debt.fromSnapshot(doc)).toList(),
+        );
+  }
+
   Future<List<Debt>> getDebts(String uid) async {
     // TODO: Pagination
     final snapshots = await _firestore

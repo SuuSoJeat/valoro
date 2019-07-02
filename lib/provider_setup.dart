@@ -14,10 +14,15 @@ List<SingleChildCloneableWidget> independentServices = [
   Provider.value(value: FirestoreService()),
   Provider.value(value: AuthService())
 ];
-List<SingleChildCloneableWidget> dependentServices = [];
+List<SingleChildCloneableWidget> dependentServices = [
+
+];
 List<SingleChildCloneableWidget> uiConsumableProviders = [
   StreamProvider<List<Record>>(
-    builder: (context) => Provider.of<FirestoreService>(context, listen: false).streamRecord(),
+    builder: (context) =>
+        Provider.of<FirestoreService>(context, listen: false).streamRecord(),
   ),
-  StreamProvider<FirebaseUser>.value(value: FirebaseAuth.instance.onAuthStateChanged)
+  StreamProvider<FirebaseUser>.value(
+    value: FirebaseAuth.instance.onAuthStateChanged,
+  ),
 ];
