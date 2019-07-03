@@ -1,13 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:valoro/core/constants/app_constants.dart';
-import 'package:valoro/ui/views/account_view.dart';
+import 'package:valoro/core/services/firestore_service.dart';
 import 'package:valoro/ui/views/debt_entry_dialog.dart';
+import 'package:valoro/ui/widgets/account_icon_button.dart';
 import 'package:valoro/ui/widgets/dashboard_balances.dart';
 import 'package:valoro/ui/widgets/recent_record_list.dart';
+import 'package:valoro/ui/widgets/welcome_text.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -35,18 +35,7 @@ class _HomeViewState extends State<HomeView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, top: 24.0, bottom: 16.0),
-                      child: Text(
-                        "Hello ${Provider.of<FirebaseUser>(context).displayName}!",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.0,
-                        ),
-                      ),
-                    ),
+                    WelcomeText(),
                     DashboardBalances()
                   ],
                 ),
@@ -101,25 +90,7 @@ class _HomeViewState extends State<HomeView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              icon: Provider.of<FirebaseUser>(context).photoUrl.isNotEmpty
-                  ? CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        Provider.of<FirebaseUser>(context).photoUrl,
-                      ),
-                    )
-                  : Icon(
-                      FontAwesomeIcons.userCircle,
-                      color: Theme.of(context).primaryColor,
-                    ),
-              onPressed: () {
-//                _scaffoldKey.currentState
-//                    .showBottomSheet((context) => AccountView());
-                showModalBottomSheet(
-                    context: context, builder: (context) => AccountView());
-              },
-              tooltip: "Account",
-            ),
+            AccountIconButton(),
             IconButton(
               icon: Icon(
                 Icons.list,
@@ -144,22 +115,7 @@ class _HomeViewState extends State<HomeView> {
           );
 
           if (newDebt != null) {
-            Firestore.instance
-                .collection('users')
-                .document(Provider.of<FirebaseUser>(context).uid)
-                .collection('debts')
-                .add(newDebt)
-                .then((value) {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                      title: Text("Succeed"),
-                      content: Text("A new debt has been added."),
-                    ),
-              );
-            }).catchError((error) {
-              print(error.toString());
-            });
+            saveNewDebt(context, newDebt);
           }
         },
       ),
@@ -167,4 +123,40 @@ class _HomeViewState extends State<HomeView> {
       resizeToAvoidBottomInset: true,
     );
   }
+
+  void saveNewDebt(BuildContext context, newDebt) {
+    Provider.of<FirestoreService>(context)
+        .saveNewDebt(Provider.of<FirebaseUser>(context).uid, newDebt)
+        .then((value) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Succeed"),
+              content: Text("A new debt has been added."),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacementNamed(RoutePaths.Debt);
+                  },
+                  child: Text(
+                    'View all debts',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Okay',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ),
+              ],
+            ),
+      );
+    });
+  }
 }
+
+
