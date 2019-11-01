@@ -25,6 +25,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
     - mangekyo-sharingan.flr
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto/Roboto-Light.ttf
+        - asset: fonts/Roboto/Roboto-Regular.ttf
+        - asset: fonts/Roboto/Roboto-Bold.ttf
+    - family: RobotoSlab
+      fonts:
+        - asset: fonts/Roboto_Slab/RobotoSlab-Regular.ttf
+        - asset: fonts/Roboto_Slab/RobotoSlab-Bold.ttf
+    - family: RobotoMono
+      fonts:
+        - asset: fonts/Roboto_Mono/RobotoMono-Medium.ttf

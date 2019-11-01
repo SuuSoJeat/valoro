@@ -14,7 +14,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Valoro',
         theme: ThemeData(
-          primarySwatch: Colors.red,
+          primaryColor: Colors.blueAccent[700],
+          accentColor: Colors.redAccent[700],
+          fontFamily: 'Roboto',
+          textTheme: TextTheme(
+            display1: TextStyle(
+              fontFamily: 'RobotoSlab'
+            )
+          )
         ),
         initialRoute: RoutePaths.Login,
         onGenerateRoute: Router.generateRoute,

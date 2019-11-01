@@ -25,85 +25,49 @@ class _HomeViewState extends State<HomeView> {
         child: AppBar(),
         preferredSize: Size.zero,
       ),
-      body: ListView(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                color: Colors.red,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              color: Theme.of(context).primaryColor,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     WelcomeText(),
-                    DashboardBalances()
+                    SizedBox(height: 16),
+                    DashboardBalanceCards(),
                   ],
                 ),
               ),
-              RecentRecordList(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 24.0,
-                  horizontal: 16.0,
-                ),
-                child: Container(
-                  child: Text(
-                    "Frequent Contacts",
-                    style: TextStyle(
-                      fontSize: 23.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Card(
-                      child: Container(
-                        width: 200,
-                        height: 100,
-                      ),
-                    ),
-                    Card(
-                      child: Container(
-                        width: 200,
-                        height: 100,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 4.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            AccountIconButton(),
-            IconButton(
-              icon: Icon(
-                Icons.list,
-                color: Theme.of(context).primaryColor,
-              ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(RoutePaths.Debt);
-              },
-            )
+            ),
           ],
         ),
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Container(
+          height: 56,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              AccountIconButton(),
+              IconButton(
+                icon: Icon(
+                  Icons.list,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(RoutePaths.Debt);
+                },
+              )
+            ],
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         child: Icon(Icons.add),
         onPressed: () async {
           final newDebt = await Navigator.push(
@@ -113,7 +77,6 @@ class _HomeViewState extends State<HomeView> {
               fullscreenDialog: true,
             ),
           );
-
           if (newDebt != null) {
             saveNewDebt(context, newDebt);
           }
@@ -131,32 +94,30 @@ class _HomeViewState extends State<HomeView> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Succeed"),
-              content: Text("A new debt has been added."),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(RoutePaths.Debt);
-                  },
-                  child: Text(
-                    'View all debts',
-                    style: Theme.of(context).textTheme.button,
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    'Okay',
-                    style: Theme.of(context).textTheme.button,
-                  ),
-                ),
-              ],
+          title: Text("Succeed"),
+          content: Text("A new debt has been added."),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed(RoutePaths.Debt);
+              },
+              child: Text(
+                'View all debts',
+                style: Theme.of(context).textTheme.button,
+              ),
             ),
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Okay',
+                style: Theme.of(context).textTheme.button,
+              ),
+            ),
+          ],
+        ),
       );
     });
   }
 }
-
-

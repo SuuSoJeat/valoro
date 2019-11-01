@@ -5,7 +5,7 @@ import 'package:valoro/core/models/balances.dart';
 import 'package:valoro/core/services/firestore_service.dart';
 import 'package:valoro/ui/widgets/data_info_card.dart';
 
-class DashboardBalances extends StatelessWidget {
+class DashboardBalanceCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Balances>(
@@ -14,27 +14,27 @@ class DashboardBalances extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Container();
           final balances = snapshot.data;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                DataInfoCard(
-                  title: "Total",
-                  value: "KHR ${balances.total}",
-                ),
-                DataInfoCard(
-                  title: "Lent",
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: DataInfoCard(
+                  label: "Lent",
                   value: "KHR ${balances.totalLent}",
-                  valueColor: Colors.red,
+                  valueColor: Theme.of(context).accentColor,
                 ),
-                DataInfoCard(
-                  title: "Borrowed",
+              ),
+              Flexible(
+                flex: 1,
+                child: DataInfoCard(
+                  label: "Borrowed",
                   value: "KHR ${balances.totalBorrowed}",
+                  valueColor: Theme.of(context).accentColor,
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         });
   }

@@ -7,9 +7,9 @@ class Balances {
   final int totalBorrowed;
 
   Balances.fromMap(Map<String, dynamic> map, {this.id})
-      : total = map["total"] ?? 0,
-        totalLent = map['totalLent'] ?? 0,
-        totalBorrowed = map['totalBorrowed'] ?? 0;
+      : total = map["total"] ?? 0.00,
+        totalLent = map['totalLent'] ?? 0.00,
+        totalBorrowed = map['totalBorrowed'] ?? 0.00;
 
   Balances.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, id: snapshot.documentID);

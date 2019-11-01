@@ -9,17 +9,15 @@ class WelcomeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-          left: 16.0, top: 24.0, bottom: 16.0),
-      child: Text(
-        "Hello ${Provider.of<FirebaseUser>(context).displayName}!",
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 30.0,
-        ),
+    return Text(
+      "Hello, ${Provider.of<FirebaseUser>(context).displayName}!",
+      style: TextStyle(
+        color: Colors.white,
+        fontFamily: 'RobotoSlab',
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0,
       ),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

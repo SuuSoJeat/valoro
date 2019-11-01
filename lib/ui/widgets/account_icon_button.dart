@@ -17,6 +17,7 @@ class AccountIconButton extends StatelessWidget {
               backgroundImage: NetworkImage(
                 Provider.of<FirebaseUser>(context).photoUrl,
               ),
+              
             )
           : Icon(
               FontAwesomeIcons.userCircle,

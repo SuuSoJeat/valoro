@@ -2,42 +2,42 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class DataInfoCard extends StatelessWidget {
-  final String title;
+  final String label;
   final String value;
   final Color valueColor;
 
-  const DataInfoCard({this.title, this.value, this.valueColor = Colors.green});
+  const DataInfoCard({this.label, this.value, this.valueColor = Colors.green});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-        width: 120,
+      elevation: 1,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Text(
-                title,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.title,
+            Text(
+              '$label',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w300,
+                fontSize: 10,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 16.0,
-                left: 8.0,
-                right: 8.0,
-              ),
-              child: AutoSizeText(
-                value,
-                maxLines: 1,
-                style: Theme.of(context).textTheme.headline.copyWith(
-                  color: valueColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              '$value',
+              style: TextStyle(
+                  fontFamily: 'RobotoMono',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: valueColor),
             )
           ],
         ),
