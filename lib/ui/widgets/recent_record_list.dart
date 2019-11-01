@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoro/core/models/debt.dart';
 import 'package:valoro/core/services/firestore_service.dart';
-import 'package:valoro/ui/widgets/debt_item.dart';
+import 'package:valoro/ui/widgets/record_item.dart';
 
 class RecentRecordList extends StatelessWidget {
   @override
@@ -56,7 +56,7 @@ class RecentRecordList extends StatelessWidget {
                 ],
               ),
               ...snapshot.data
-                  .map((d) => DebtItem(
+                  .map((d) => RecordItem(
                         debt: d,
                         onTap: () {},
                       ))

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoro/core/viewmodels/widgets/debts_model.dart';
 import 'package:valoro/ui/views/base_widget.dart';
-import 'package:valoro/ui/widgets/debt_item.dart';
+import 'package:valoro/ui/widgets/record_item.dart';
 
 class DebtList extends StatelessWidget {
   @override
@@ -22,7 +22,7 @@ class DebtList extends StatelessWidget {
                 )
               : ListView.builder(
                   itemCount: model.debts.length,
-                  itemBuilder: (context, index) => DebtItem(
+                  itemBuilder: (context, index) => RecordItem(
                         debt: model.debts[index],
                         onTap: () {},
                       ),

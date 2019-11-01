@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:valoro/core/models/record.dart';
-import 'package:valoro/ui/widgets/record_item.dart';
+import 'package:valoro/ui/widgets/debtor_item.dart';
 
 class RecordList extends StatelessWidget {
   const RecordList({Key key}) : super(key: key);
@@ -16,7 +16,7 @@ class RecordList extends StatelessWidget {
         : ListView(
             padding: EdgeInsets.only(top: 20.0),
             children: <Widget>[
-              ...records.map((record) => RecordItem(
+              ...records.map((record) => DebtorItem(
                     record: record,
                     onTap: () {
 //                      record.reference
