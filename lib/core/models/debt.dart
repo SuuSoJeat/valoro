@@ -6,6 +6,7 @@ class Debt {
   final String description;
   final String date;
   final String currency;
+  final String type;
   final int amount;
 
   Debt.fromMap(Map<String, dynamic> map, {this.id})
@@ -13,11 +14,13 @@ class Debt {
         assert(map["date"] != null),
         assert(map["amount"] != null),
         assert(map["currency"] != null),
+        assert(map["type"] != null),
         name = map["name"],
         description = map["description"] ?? "No description.",
         date = map["date"],
         amount = map["amount"],
-        currency = map["currency"];
+        currency = map["currency"],
+        type = map["type"];
 
   Debt.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, id: snapshot.documentID);

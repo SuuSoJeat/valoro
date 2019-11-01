@@ -17,34 +17,53 @@ class RecentRecordList extends StatelessWidget {
             child: Text(snapshot.error.toString()),
           );
         }
-        if (snapshot.data.isEmpty) {
+
+        if (snapshot.data == null) {
           return Container();
         }
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 24.0,
-            horizontal: 16.0,
+        return Card(
+          elevation: 1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text(
-                  "Recent Records",
-                  style: TextStyle(
-                    fontSize: 23.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Recent Records',
+                      style: TextStyle(
+                          fontFamily: 'RobotoSlab',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
                   ),
-                ),
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text(
+                      'VIEW ALL',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                  )
+                ],
               ),
               ...snapshot.data
                   .map((d) => DebtItem(
                         debt: d,
                         onTap: () {},
                       ))
-                  .toList()
+                  .toList(),
+              SizedBox(
+                height: 16,
+              )
             ],
           ),
         );

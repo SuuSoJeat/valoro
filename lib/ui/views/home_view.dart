@@ -43,6 +43,10 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: RecentRecordList(),
+            )
           ],
         ),
       ),
