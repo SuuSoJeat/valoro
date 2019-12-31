@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class WelcomeText extends StatelessWidget {
@@ -11,11 +12,12 @@ class WelcomeText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       "Hello, ${Provider.of<FirebaseUser>(context).displayName}!",
-      style: TextStyle(
-        color: Colors.white,
-        fontFamily: 'RobotoSlab',
+      style: GoogleFonts.robotoSlab(
+        fontSize: 20,
         fontWeight: FontWeight.bold,
-        fontSize: 20.0,
+        textStyle: TextStyle(
+          color: Colors.white
+        )
       ),
       overflow: TextOverflow.ellipsis,
     );

@@ -1,5 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DataInfoCard extends StatelessWidget {
   final String label;
@@ -22,10 +22,9 @@ class DataInfoCard extends StatelessWidget {
           children: <Widget>[
             Text(
               '$label',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w300,
+              style: GoogleFonts.roboto(
                 fontSize: 10,
+                fontWeight: FontWeight.w300,
               ),
             ),
             SizedBox(
@@ -33,12 +32,14 @@ class DataInfoCard extends StatelessWidget {
             ),
             Text(
               '$value',
-              style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: valueColor),
-            )
+              style: GoogleFonts.robotoMono(
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+                textStyle: TextStyle(
+                  color: valueColor,
+                ),
+              ),
+            ),
           ],
         ),
       ),
