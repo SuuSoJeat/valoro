@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:valoro/core/models/balances.dart';
 import 'package:valoro/core/models/debt.dart';
+import 'package:valoro/core/models/record.dart';
 
 class FirestoreService {
   final Firestore _firestore = Firestore.instance;
@@ -50,6 +51,21 @@ class FirestoreService {
           .collection('debts')
           .add(newDebt);
       return Future.value(documentReference);
+    } catch (error) {
+      return Future.error(error);
+    }
+  }
+
+  Future<List<Record>> getRecentRecords(String uid) async {
+    try {
+      final snapshots = await _firestore
+          .collection('records')
+          .where('uid', isEqualTo: uid)
+          
+          .getDocuments();
+      return Future.value(snapshots.documents
+          .map((snapshot) => Record.fromSnapshot(snapshot))
+          .toList());
     } catch (error) {
       return Future.error(error);
     }

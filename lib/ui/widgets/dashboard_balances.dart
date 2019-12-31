@@ -12,6 +12,11 @@ class DashboardBalanceCards extends StatelessWidget {
         stream: Provider.of<FirestoreService>(context)
             .dashboardBalances(Provider.of<FirebaseUser>(context)),
         builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          }
           if (!snapshot.hasData) return Container();
           final balances = snapshot.data;
           return Row(

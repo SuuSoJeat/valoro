@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:valoro/core/constants/app_constants.dart';
 import 'package:valoro/core/models/debt.dart';
 import 'package:valoro/core/services/firestore_service.dart';
 import 'package:valoro/ui/widgets/record_item.dart';
@@ -18,8 +19,10 @@ class RecentRecordList extends StatelessWidget {
           );
         }
 
-        if (snapshot.data == null) {
-          return Container();
+        if (snapshot.data == null || snapshot.data.length == 0) {
+          return Container(
+            // child: Center(child: Text('No data.'),),
+          );
         }
         return Card(
           elevation: 1,
@@ -42,7 +45,9 @@ class RecentRecordList extends StatelessWidget {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(RoutePaths.RecentRecords);
+                    },
                     child: Text(
                       'VIEW ALL',
                       style: TextStyle(

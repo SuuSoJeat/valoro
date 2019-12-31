@@ -1,5 +1,12 @@
+import 'dart:async';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:valoro/ui/widgets/tag_text_field.dart';
 
 class DebtEntryDialog extends StatefulWidget {
   @override
@@ -7,177 +14,147 @@ class DebtEntryDialog extends StatefulWidget {
 }
 
 class _DebtEntryDialogState extends State<DebtEntryDialog> {
-  final Map<String, dynamic> _newDebt = {
-    "name": "",
-    "currency": "KHR",
-    "amount": 0,
-    "date": DateFormat("E: MMMM d, y").format(DateTime.now()),
-    "description": ""
-  };
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _typeAheadController = TextEditingController();
 
-  TimeOfDay _time = TimeOfDay.now();
-
-  FocusNode _amountNode = FocusNode();
-  final _debtEntryForm = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("New Debt"),
+        title: Text(
+          "Add Debtor",
+          style: GoogleFonts.robotoSlab(fontWeight: FontWeight.bold),
+        ),
         actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              if (_debtEntryForm.currentState.validate()) {
-                _debtEntryForm.currentState.save();
-                Navigator.of(context).pop(_newDebt);
-              }
-            },
-            child: Text(
-              'Save',
-              style: Theme.of(context).textTheme.button.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
+          IconButton(
+            onPressed: actionSavePressed,
+            icon: Icon(Icons.check),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Form(
-              key: _debtEntryForm,
-              autovalidate: true,
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Name',
-                      hintText: 'Enter a name',
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: 56,
+                child: Row(
+                  children: <Widget>[
+                    Text('Debtor Name:'),
+                    SizedBox(
+                      width: 16,
                     ),
-                    autofocus: true,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Name is required.';
-                      }
-                      return null;
-                    },
-                    textCapitalization: TextCapitalization.words,
-                    cursorColor: Theme.of(context).primaryColor,
-                    onSaved: (value) {
-                      setState(() {
-                        _newDebt['name'] = value;
-                      });
-                    },
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (value) {
-                      FocusScope.of(context).requestFocus(_amountNode);
-                    },
-                  ),
-                  TextFormField(
-                    focusNode: _amountNode,
-                    decoration: InputDecoration(
-                      labelText: "Amount",
-                      suffixIcon: DropdownButtonHideUnderline(
-                        child: DropdownButton(items: [
-                          DropdownMenuItem(
-                            child: Text("KHR"),
-                          ),
-                        ], onChanged: (value) {}),
-                      ),
-                    ),
-                    initialValue: '0',
-                    validator: (value) {
-                      if (int.tryParse(value) == 0) {
-                        return 'Amount must not be zero.';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      setState(() {
-                        _newDebt['amount'] = int.tryParse(value) ?? 0;
-                      });
-                    },
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Description',
-                      hintText: 'Enter a short description',
-                    ),
-                    maxLines: 3,
-                    maxLength: 100,
-                    cursorColor: Theme.of(context).primaryColor,
-                    autofocus: true,
-                    initialValue: _newDebt['description'],
-                    validator: (value) {
-                      return null;
-                    },
-                    onSaved: (value) {
-                      setState(() {
-                        _newDebt['description'] = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Flexible(
-                  child: ListTile(
-                    leading: Icon(Icons.event),
-                    title: Text("Date"),
-                    subtitle: Text(_newDebt['date']),
-                    onTap: () async {
-                      final date = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1990),
-                        lastDate: DateTime(2030),
-                      );
-                      setState(() {
-                        _newDebt['date'] =
-                            DateFormat("E: MMMM d, y").format(date);
-                      });
-                    },
-                  ),
+                    _typeAheadController.text.length > 0
+                        ? InputChip(
+                            avatar: CircleAvatar(
+                              child: Text("${_typeAheadController.text[0]}"),
+                            ),
+                            label: Text('${_typeAheadController.text}'),
+                            deleteIcon: Icon(Icons.close),
+                            onDeleted: () {
+                              setState(() {
+                                _typeAheadController.text = '';
+                              });
+                            },
+                          )
+                        : Flexible(
+                            child: TypeAheadFormField(
+                              textFieldConfiguration: TextFieldConfiguration(
+                                  controller: _typeAheadController),
+                              itemBuilder: (context, Contact contact) {
+                                return ListTile(
+                                  title: Text("${contact.displayName}"),
+                                );
+                              },
+                              suggestionsCallback: contactsCallback,
+                              onSuggestionSelected: (Contact contact) {
+                                setState(() {
+                                  _typeAheadController.text =
+                                      contact.displayName;
+                                });
+                              },
+                            ),
+                          )
+                  ],
                 ),
-                Flexible(
-                  child: ListTile(
-                    leading: Icon(Icons.timer),
-                    title: Text(
-                      "Time",
-                    ),
-                    subtitle: Text(_time.format(context)),
-                    onTap: () async {
-                      final time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                          builder: (context, child) {
-                            return MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(alwaysUse24HourFormat: true),
-                              child: child,
-                            );
-                          });
-                      setState(() {
-                        if (time != null) {
-                          _time = time;
-                        }
-                      });
-                    },
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomSheet: BottomSheet(
+        enableDrag: true,
+        elevation: 8,
+        backgroundColor: Colors.white,
+        builder: (context) {
+          return Container(
+            height: 56,
+            child: Row(
+              children: <Widget>[
+                FlatButton.icon(
+                  icon: Icon(Icons.date_range),
+                  onPressed: () {},
+                  label: Text(
+                    "Today",
+                    style: GoogleFonts.roboto(),
                   ),
                 ),
               ],
             ),
-          ],
-        ),
+          );
+        },
+        onClosing: () {},
       ),
     );
   }
+
+  FutureOr<List<Contact>> contactsCallback(pattern) async {
+    PermissionStatus permissionStatus = await _getContactPermission();
+    if (permissionStatus == PermissionStatus.granted) {
+      Iterable<Contact> contacts =
+          await ContactsService.getContacts(query: pattern);
+      return contacts.toList();
+    } else {
+      _handleInvalidPermissions(permissionStatus);
+      return Iterable<Contact>.empty().toList();
+    }
+  }
+
+  Future<PermissionStatus> _getContactPermission() async {
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.contacts);
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.disabled) {
+      Map<PermissionGroup, PermissionStatus> permissionStatus =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.contacts]);
+      return permissionStatus[PermissionGroup.contacts] ??
+          PermissionStatus.unknown;
+    } else {
+      return permission;
+    }
+  }
+
+  void _handleInvalidPermissions(PermissionStatus permissionStatus) {
+    if (permissionStatus == PermissionStatus.denied) {
+      throw new PlatformException(
+          code: "PERMISSION_DENIED",
+          message: "Access to location data denied",
+          details: null);
+    } else if (permissionStatus == PermissionStatus.disabled) {
+      throw new PlatformException(
+          code: "PERMISSION_DISABLED",
+          message: "Location data is not available on device",
+          details: null);
+    }
+  }
+
+  void actionSavePressed() {}
 }

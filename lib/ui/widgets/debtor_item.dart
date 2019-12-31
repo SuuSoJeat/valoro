@@ -17,17 +17,17 @@ class DebtorItem extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                record.category,
-                style: Theme.of(context).textTheme.title,
-              ),
-              Text(
-                record.amount.toString(),
-                style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
+              // Text(
+              //   record.category,
+              //   style: Theme.of(context).textTheme.title,
+              // ),
+              // Text(
+              //   record.amount.toString(),
+              //   style: TextStyle(
+              //     color: Colors.green,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // )
             ],
           ),
         ),
