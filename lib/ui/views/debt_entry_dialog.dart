@@ -1,10 +1,14 @@
 import 'dart:async';
+
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:valoro/ui/widgets/segmented_button.dart';
+import 'package:valoro/ui/widgets/segmented_button_form_field.dart';
 
 class DebtEntryDialog extends StatefulWidget {
   @override
@@ -45,7 +49,11 @@ class _DebtEntryDialogState extends State<DebtEntryDialog> {
                 height: 56,
                 child: Row(
                   children: <Widget>[
-                    Text('Debtor Name:'),
+                    Text(
+                      'Debtor Name:',
+                      style: GoogleFonts.roboto(
+                          textStyle: TextStyle(color: Colors.blueGrey[900])),
+                    ),
                     SizedBox(
                       width: 16,
                     ),
@@ -83,6 +91,92 @@ class _DebtEntryDialogState extends State<DebtEntryDialog> {
                   ],
                 ),
               ),
+              Container(
+                height: 56,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(
+                  children: <Widget>[
+                    FloatingActionButton(
+                      heroTag: "descriptionButton",
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(),
+                      child: Icon(
+                        Icons.event_note,
+                        color: Colors.blueGrey[900],
+                      ),
+                      mini: true,
+                      onPressed: () {},
+                    ),
+                    SizedBox(
+                      width: 24,
+                    ),
+                    Flexible(
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                            hintText: "Enter a description",
+                            hintStyle: GoogleFonts.roboto(
+                                textStyle:
+                                    TextStyle(color: Colors.blueGrey[900]))),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                height: 56,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(
+                  children: <Widget>[
+                    FloatingActionButton(
+                      heroTag: "currencyButton",
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(),
+                      child: Text(
+                        "\$",
+                        style: GoogleFonts.roboto(
+                          textStyle: TextStyle(
+                            color: Colors.blueGrey[900],
+                          ),
+                        ),
+                      ),
+                      mini: true,
+                      onPressed: () {},
+                    ),
+                    SizedBox(
+                      width: 24,
+                    ),
+                    Flexible(
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          hintStyle: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                              color: Colors.blueGrey[900],
+                            ),
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 80, top: 8, right: 16),
+                child: SegmentedButtonFormField(
+                  options: {
+                    BadgeOption.lending: true,
+                    BadgeOption.borrowing: true
+                  },
+                  onSaved: (option) {
+                    print(option);
+                  },
+                ),
+              )
             ],
           ),
         ),
@@ -154,5 +248,7 @@ class _DebtEntryDialogState extends State<DebtEntryDialog> {
     }
   }
 
-  void actionSavePressed() {}
+  void actionSavePressed() {
+    _formKey.currentState.save();
+  }
 }
