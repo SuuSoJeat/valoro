@@ -78,55 +78,18 @@ class _HomeViewState extends State<HomeView> {
           backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.add),
           onPressed: () async {
-            final newDebt = await Navigator.push(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => DebtEntryDialog(),
                 fullscreenDialog: true,
               ),
             );
-            if (newDebt != null) {
-              saveNewDebt(context, newDebt);
-            }
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         resizeToAvoidBottomInset: true,
       ),
     );
-  }
-
-  void saveNewDebt(BuildContext context, newDebt) {
-    Provider.of<FirestoreService>(context)
-        .saveNewDebt(Provider.of<FirebaseUser>(context).uid, newDebt)
-        .then((value) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Succeed"),
-          content: Text("A new debt has been added."),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacementNamed(RoutePaths.Debt);
-              },
-              child: Text(
-                'View all debts',
-                style: Theme.of(context).textTheme.button,
-              ),
-            ),
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'Okay',
-                style: Theme.of(context).textTheme.button,
-              ),
-            ),
-          ],
-        ),
-      );
-    });
   }
 }

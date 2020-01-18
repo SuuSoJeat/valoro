@@ -22,7 +22,11 @@ class AuthenticationService {
   }
 
   Future handleSignOut() {
-    _googleSignIn.signOut();
-    return _auth.signOut();
+    try {
+      _googleSignIn.signOut();
+      return _auth.signOut();
+    } catch (e) {
+      return e.message;
+    }
   }
 }

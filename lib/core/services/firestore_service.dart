@@ -61,7 +61,6 @@ class FirestoreService {
       final snapshots = await _firestore
           .collection('records')
           .where('uid', isEqualTo: uid)
-          
           .getDocuments();
       return Future.value(snapshots.documents
           .map((snapshot) => Record.fromSnapshot(snapshot))

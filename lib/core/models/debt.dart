@@ -25,3 +25,14 @@ class Debt {
   Debt.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, id: snapshot.documentID);
 }
+
+class CreateDebtResponse {
+  final String debtDocId;
+  final String recordDocId;
+
+  CreateDebtResponse.fromCallableResponse(dynamic data)
+      : assert(data['debtDocId'] != null),
+        assert(data['recordDocId'] != null),
+        debtDocId = data['debtDocId'],
+        recordDocId = data['recordDocId'];
+}
