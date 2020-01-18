@@ -51,8 +51,8 @@ export const createNewDebt = functions.https.onCall(async (data, context) => {
             totalDebt: numericBasedConvert(debtType, amount), //TODO: Normalize the currency
             totalLent: isLending(debtType, amount), //TODO: Normalize the currency
             totalBorrowed: isBorrowing(debtType, amount), //TODO: Normalize the currency
-            createdAt: Date(),
-            updatedAt: Date()
+            createdAt: new Date(),
+            updatedAt: new Date()
         })
         console.info(`Successfully created a new debt with ID ${debtDocRef.id}`)
 
@@ -63,7 +63,7 @@ export const createNewDebt = functions.https.onCall(async (data, context) => {
             debtType: debtType,
             currency: currency,
             issueDate: new Date(issueDate),
-            createdAt: Date()
+            createdAt: new Date()
         })
         console.info(`Successfully created a new record with ID ${recordDocRef.id}`)
         return {
