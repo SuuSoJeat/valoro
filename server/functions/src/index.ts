@@ -43,33 +43,44 @@ export const createNewDebt = functions.https.onCall(async (data, context) => {
         console.info(`Input data: uid ${uid}, debtorName ${debtorName}, description ${description}, amount ${amount}, currency ${currency}, debtType ${debtType}, issueDate ${issueDate}.`)
 
         console.info('Creating a new debt.')
-        const debtDocRef = await admin.firestore().collection(COL_DEBTS).add({
-            uid: uid,
-            debtorName: debtorName,
-            debtorUID: debtorUID,
-            description: description,
-            totalDebt: numericBasedConvert(debtType, amount), //TODO: Normalize the currency
-            totalLent: isLending(debtType, amount), //TODO: Normalize the currency
-            totalBorrowed: isBorrowing(debtType, amount), //TODO: Normalize the currency
-            createdAt: new Date(),
-            updatedAt: new Date()
-        })
-        console.info(`Successfully created a new debt with ID ${debtDocRef.id}`)
 
-        const recordDocRef = await admin.firestore().collection(COL_RECORDS).add({
-            uid: uid,
-            debtID: debtDocRef.id,
-            amount: amount,
-            debtType: debtType,
-            currency: currency,
-            issueDate: new Date(issueDate),
-            createdAt: new Date()
-        })
-        console.info(`Successfully created a new record with ID ${recordDocRef.id}`)
-        return {
-            debtDocId: debtDocRef.id,
-            recordDocId: recordDocRef.id
-        }
+        const result = await admin.firestore().runTransaction(async (transaction) => {
+
+            const debtDocRef = admin.firestore().collection(COL_DEBTS).doc()
+            const recordDocRef = admin.firestore().collection(COL_RECORDS).doc()
+
+            transaction.create(debtDocRef, {
+                uid: uid,
+                debtorName: debtorName,
+                debtorUID: debtorUID,
+                description: description,
+                totalDebt: numericBasedConvert(debtType, amount), //TODO: Normalize the currency
+                totalLent: isLending(debtType, amount), //TODO: Normalize the currency
+                totalBorrowed: isBorrowing(debtType, amount), //TODO: Normalize the currency
+                createdAt: new Date(),
+                updatedAt: new Date()
+            })
+
+            console.info(`Successfully created a new debt with ID ${debtDocRef.id}`)
+
+            transaction.create(recordDocRef, {
+                uid: uid,
+                debtID: debtDocRef.id,
+                amount: amount,
+                debtType: debtType,
+                currency: currency,
+                issueDate: new Date(issueDate),
+                createdAt: new Date()
+            })
+
+            console.info(`Successfully created a new record with ID ${recordDocRef.id}`)
+
+            return {
+                debtDocId: debtDocRef.id,
+                recordDocId: recordDocRef.id
+            }
+        });
+        return result
     } catch (error) {
         console.error(`Failed to create a new debt for following reasons: ${error}.`)
         throw new functions.https.HttpsError("internal", `Failed to create a new debt.`, error)
